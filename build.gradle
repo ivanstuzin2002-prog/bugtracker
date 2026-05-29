@@ -53,9 +53,9 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                '**/config/**',      // исключаем конфигурационные классы
-                '**/dto/**',         // DTO не требуют покрытия
-                '**/entity/**',      // сущности не требуют покрытия
+                '**/config/**',      
+                '**/dto/**',         
+                '**/entity/**',      
                 '**/exception/**',
                 '**/BugtrackerApplication.class'
             ])
