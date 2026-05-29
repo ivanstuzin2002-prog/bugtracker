@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма бага</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${bug.id} == null ? 'Новый баг' : 'Редактирование бага'"></h2>
+    <form th:action="${bug.id} == null ? @{/bugs/create} : @{/bugs/edit/{id}(id=${bug.id})}" method="post">
+        <label>Название:</label>
+        <input type="text" name="title" th:value="${bug.title}" required>
+
+        <label>Описание:</label>
+        <textarea name="description" th:text="${bug.description}"></textarea>
+
+        <label>Приоритет:</label>
+        <select name="priority">
+            <option th:each="p : ${priorities}" th:value="${p}" th:text="${p}" th:selected="${bug.priority != null and p == bug.priority}"></option>
+        </select>
+
+        <label>Версия:</label>
+        <select name="versionId">
+            <option th:each="v : ${versions}" th:value="${v.id}" th:text="${v.version}" th:selected="${bug.version != null and v.id == bug.version.id}"></option>
+        </select>
+
+        <button type="submit">Сохранить</button>
+    </form>
+    <br>
+    <a th:href="@{/bugs}" class="back-button">← Назад к списку</a>
+    <a th:href="@{/dashboard}" class="back-button">На главную</a>
+</div>
+</body>
+</html>

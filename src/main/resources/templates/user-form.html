@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новый пользователь</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Создание пользователя</h2>
+    <form th:action="@{/users/create}" method="post">
+        <label>Фамилия:</label>
+        <input type="text" name="lastName" required>
+        <label>Имя:</label>
+        <input type="text" name="firstName" required>
+        <label>Отчество:</label>
+        <input type="text" name="patronymic">
+        <label>Email:</label>
+        <input type="email" name="email" required>
+        <label>Пароль:</label>
+        <input type="password" name="password" required>
+        <label>Роль:</label>
+        <select name="roleName">
+            <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+        </select>
+        <button type="submit">Создать</button>
+    </form>
+    <br>
+    <a th:href="@{/dashboard}" class="back-button">На главную</a>
+</div>
+</body>
+</html>

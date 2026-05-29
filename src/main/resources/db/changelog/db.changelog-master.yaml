@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: student
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: name, type: varchar(50), constraints: { nullable: false, unique: true } }
+        - createTable:
+            tableName: users
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: last_name, type: varchar(100) }
+              - column: { name: first_name, type: varchar(100) }
+              - column: { name: patronymic, type: varchar(100) }
+              - column: { name: email, type: varchar(255), constraints: { nullable: false, unique: true } }
+              - column: { name: password_hash, type: varchar(255) }
+              - column: { name: role_id, type: bigint, constraints: { foreignKeyName: fk_user_role, references: roles(id) } }
+              - column: { name: created_at, type: timestamp }
+        - createTable:
+            tableName: applications
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: name, type: varchar(255), constraints: { nullable: false } }
+        - createTable:
+            tableName: versions
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: app_id, type: bigint, constraints: { foreignKeyName: fk_version_app, references: applications(id) } }
+              - column: { name: version, type: varchar(50) }
+              - column: { name: build_number, type: int }
+              - column: { name: created_at, type: date }
+        - createTable:
+            tableName: bugs
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: title, type: varchar(255) }
+              - column: { name: description, type: text }
+              - column: { name: priority, type: varchar(20) }
+              - column: { name: version_id, type: bigint, constraints: { foreignKeyName: fk_bug_version, references: versions(id) } }
+              - column: { name: reported_by, type: bigint, constraints: { foreignKeyName: fk_bug_user, references: users(id) } }
+        - createTable:
+            tableName: stores
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: name, type: varchar(255) }
+        - createTable:
+            tableName: releases
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: version_id, type: bigint, constraints: { foreignKeyName: fk_release_version, references: versions(id) } }
+              - column: { name: store_id, type: bigint, constraints: { foreignKeyName: fk_release_store, references: stores(id) } }
+              - column: { name: release_date, type: date }
+              - column: { name: status, type: varchar(20) }
+        - insert:
+            tableName: roles
+            columns:
+              - column: { name: name, value: "ADMIN" }
+              - column: { name: name, value: "DEVELOPER" }
+              - column: { name: name, value: "MANAGER" }
+              - column: { name: name, value: "TESTER" }
+        - insert:
+            tableName: applications
+            columns:
+              - column: { name: name, value: "BugTracker App" }
+        - insert:
+            tableName: stores
+            columns:
+              - column: { name: name, value: "Google Play" }
+              - column: { name: name, value: "App Store" }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новая версия</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Добавление версии</h2>
+    <form th:action="@{/versions/create}" method="post">
+        <label>Приложение:</label>
+        <select name="appId">
+            <option th:each="app : ${applications}" th:value="${app.id}" th:text="${app.name}"></option>
+        </select>
+        <label>Версия (например, 1.0.0):</label>
+        <input type="text" name="version" required>
+        <label>Номер сборки:</label>
+        <input type="number" name="buildNumber" required>
+        <button type="submit">Добавить</button>
+    </form>
+    <br>
+    <a th:href="@{/dashboard}" class="back-button">На главную</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Версии приложений</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Версии приложений</h2>
+    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{/versions/create}">Добавить версию</a>
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Приложение</th><th>Версия</th><th>Сборка</th><th>Дата создания</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="v : ${versions}">
+                <td th:text="${v.id}">1</td>
+                <td th:text="${v.application.name}">App</td>
+                <td th:text="${v.version}">1.0</td>
+                <td th:text="${v.buildNumber}">10</td>
+                <td th:text="${v.createdAt}">2025-01-01</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a th:href="@{/dashboard}" class="back-button">← Вернуться на главную</a>
+</div>
+</body>
+</html>

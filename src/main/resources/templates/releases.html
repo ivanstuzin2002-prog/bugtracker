@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Релизы</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Релизы</h2>
+    <a sec:authorize="hasAnyRole('ADMIN', 'MANAGER')" th:href="@{/releases/create}" class="button">Добавить релиз</a>
+
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Приложение</th><th>Версия</th><th>Магазин</th><th>Дата релиза</th><th>Статус</th><th sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">Действия</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="r : ${releases}">
+                <td th:text="${r.id}">1</td>
+                <td th:text="${r.version.application.name}">App</td>
+                <td th:text="${r.version.version}">1.0</td>
+                <td th:text="${r.store.name}">Store</td>
+                <td th:text="${r.releaseDate}">2025-01-01</td>
+                <td th:text="${r.status}">PUBLISHED</td>
+                <td sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+                    <a th:href="@{/releases/edit/{id}(id=${r.id})}">Редактировать</a>
+                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/releases/delete/{id}(id=${r.id})}" onclick="return confirm('Удалить релиз?')">Удалить</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a th:href="@{/dashboard}" class="back-button">← Вернуться на главную</a>
+</div>
+</body>
+</html>

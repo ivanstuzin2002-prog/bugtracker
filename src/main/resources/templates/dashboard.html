@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель управления</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Добро пожаловать, <span sec:authentication="name"></span>!</h1>
+    <p>Ваша роль: <span sec:authentication="authorities"></span></p>
+    <ul>
+        <li><a th:href="@{/bugs}">Баги</a></li>
+        <li><a th:href="@{/versions}">Версии приложений</a></li>
+        <li><a th:href="@{/releases}">Релизы</a></li>
+        <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/users}">Управление пользователями</a></li>
+    </ul>
+    <a th:href="@{/logout}">Выход</a>
+</div>
+</body>
+</html>

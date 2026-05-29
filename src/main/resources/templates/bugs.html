@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Список багов</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Баги</h2>
+    <a sec:authorize="hasAnyRole('ADMIN','DEVELOPER','TESTER')" th:href="@{/bugs/create}" class="button">Добавить баг</a>
+
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Название</th><th>Приоритет</th><th>Версия</th><th>Автор</th><th>Действия</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="bug : ${bugs}">
+                <td th:text="${bug.id}">1</td>
+                <td th:text="${bug.title}">Bug</td>
+                <td th:text="${bug.priority}">High</td>
+                <td th:text="${bug.version.version}">1.0</td>
+                <!-- Безопасное отображение автора, если reportedBy == null -->
+                <td th:text="${bug.reportedBy != null ? bug.reportedBy.firstName + ' ' + bug.reportedBy.lastName : 'Неизвестный'}">Author</td>
+                <td>
+                    <a sec:authorize="hasAnyRole('ADMIN','DEVELOPER')" th:href="@{/bugs/edit/{id}(id=${bug.id})}">Редактировать</a>
+                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/bugs/delete/{id}(id=${bug.id})}" onclick="return confirm('Удалить баг?')">Удалить</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a th:href="@{/dashboard}" class="back-button">← Вернуться на главную</a>
+</div>
+</body>
+</html>

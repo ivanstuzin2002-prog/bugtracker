@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма релиза</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${release == null} ? 'Новый релиз' : 'Редактирование релиза'"></h2>
+    <form th:action="${release == null} ? @{/releases/create} : @{/releases/edit/{id}(id=${release.id})}" method="post">
+        <label>Версия приложения:</label>
+        <select name="versionId">
+            <option th:each="v : ${versions}" th:value="${v.id}"
+                    th:text="${v.application.name} + ' - ' + ${v.version}"
+                    th:selected="${release != null and release.version.id == v.id}"></option>
+        </select>
+
+        <label>Магазин:</label>
+        <select name="storeId">
+            <option th:each="s : ${stores}" th:value="${s.id}"
+                    th:text="${s.name}"
+                    th:selected="${release != null and release.store.id == s.id}"></option>
+        </select>
+
+        <label>Статус:</label>
+        <select name="status">
+            <option th:each="st : ${statuses}" th:value="${st}"
+                    th:text="${st}"
+                    th:selected="${release != null and release.status == st}"></option>
+        </select>
+
+        <button type="submit">Сохранить</button>
+    </form>
+    <br>
+    <a th:href="@{/releases}" class="back-button">← Назад к списку релизов</a>
+    <a th:href="@{/dashboard}" class="back-button">На главную</a>
+</div>
+</body>
+</html>
