@@ -11,3 +11,5 @@ Bug Tracker — веб-приложение для управления бага
 1. Java 21, Spring Boot 3.4.4, Spring Security, Spring Data JPA, Thymeleaf.
 2. PostgreSQL, Liquibase, Lombok.
 3. Gradle как система сборки.
+
+Примечание: Использовались Java 21 и Spring Boot 3.4.4, т.к. с более современными версиями происходил конфликт окружения в VS Code (Почему то). Пришлось использовать старые версии.
